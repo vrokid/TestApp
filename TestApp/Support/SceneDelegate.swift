@@ -18,13 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let window = UIWindow(windowScene: windowScene)
-        
+        window = UIWindow(windowScene: windowScene)
         let noteListVC = NoteListBuilder.createModule()
-        
-        window.rootViewController = UINavigationController(rootViewController: noteListVC)
-        self.window = window
-        window.makeKeyAndVisible()
+        window?.rootViewController = UINavigationController(rootViewController: noteListVC)
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

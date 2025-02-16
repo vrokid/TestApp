@@ -8,7 +8,7 @@
 import Foundation
 
 class NoteListInteractor: NoteListInteractorInputProtocol {
-    weak var presenter: NoteListInteractorOutputProtocol?
+    var presenter: NoteListInteractorOutputProtocol?
     
     private var notes: [NoteEntity] = [NoteEntity(id: 1, name: "Clean the room", description: "Clean the room and put away all clothes", creationDate: Date(), isDone: true), NoteEntity(id: 2, name: "Buy groceries", description: "Buy groceries and milk", creationDate: Date(), isDone: false)]
     

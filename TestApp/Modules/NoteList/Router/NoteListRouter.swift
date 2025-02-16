@@ -11,12 +11,9 @@ class NoteListRouter: NoteListRouterProtocol {
     weak var viewController: UIViewController?
     
     func navigateToDetailNote(_ note: NoteEntity) {
-        let noteDetailView = NoteDetailView()
+        let noteDetailView = NoteDetailBuilder.createModule()
         
-        let noteDetailPresenter = NoteDetailPresenter()
-        noteDetailPresenter.selectedNote = note
-        
-        noteDetailView.presenter = noteDetailPresenter
+        noteDetailView.presenter?.selectedNote = note
         
         viewController?.navigationController?.pushViewController(noteDetailView, animated: true)
     }

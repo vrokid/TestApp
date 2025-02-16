@@ -19,4 +19,5 @@ protocol NoteDetailPresenterProtocol: AnyObject {
     var selectedNote: NoteEntity? { get set }
 }
 
-protocol NoteDetailRouterProtocol: AnyObject {}
+protocol NoteDetailRouterProtocol: AnyObject {
+}
