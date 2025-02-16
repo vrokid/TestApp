@@ -5,6 +5,7 @@
 //  Created by cj on 15.02.2025.
 //
 
+import Foundation
 import UIKit
 
 class NoteListView: UIViewController, NoteListViewProtocol {
@@ -28,7 +29,12 @@ class NoteListView: UIViewController, NoteListViewProtocol {
     }
     
     func showData(_ data: [NoteEntity]) {
+        self.tableView.reloadData()
         print(data)
+    }
+    
+    func showError(_ error: any Error) {
+        print(error)
     }
 }
 
@@ -41,11 +47,17 @@ extension NoteListView: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return 0
         } else if section == 1 {
-//            return presenter?.getItemCount ?? 0
-            return 1
+            return presenter?.getItemCount ?? 0
         } else {
             return 0
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let note = presenter?.getItemAt(indexPath.row) else {
+            return
+        }
+        presenter?.openDetailNote(note)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -56,10 +68,15 @@ extension NoteListView: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NoteListNoteCell.reuseId, for: indexPath) as? NoteListNoteCell else {
                 return UITableViewCell()
             }
-            cell.config(isSelected: true, title: "Some random swimming test")
+            guard let note = presenter?.getItemAt(indexPath.row) else {
+                return cell
+            }
+            cell.config(note: note)
             return cell
         default:
             return UITableViewCell()
         }
     }
+    
+    
 }

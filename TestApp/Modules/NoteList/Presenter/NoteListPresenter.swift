@@ -21,4 +21,16 @@ class NoteListPresenter: NoteListPresenterProtocol, NoteListInteractorOutputProt
     func dataFetched(_ notes: [NoteEntity]) {
         view?.showData(notes)
     }
+    
+    func didFailToFetchNotes(_ error: Error) {
+        view?.showError(error)
+    }
+    
+    func getItemAt(_ index: Int) -> NoteEntity? {
+        return interactor?.getData()[index]
+    }
+    
+    func openDetailNote(_ note: NoteEntity) {
+        router?.navigateToDetailNote(note)
+    }
 }

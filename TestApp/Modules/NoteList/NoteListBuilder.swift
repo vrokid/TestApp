@@ -17,6 +17,7 @@ class NoteListBuilder {
         presenter.interactor = interactor
         presenter.router = router
         interactor.presenter = presenter
+        router.viewController = view
         
         return view
     }

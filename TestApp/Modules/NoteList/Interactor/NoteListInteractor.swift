@@ -14,7 +14,15 @@ class NoteListInteractor: NoteListInteractorInputProtocol {
     
     func loadData() {
         // load data
-        presenter?.dataFetched(notes)
+        NetworkService.shared.fetchNotes { [weak self] result in
+            switch result {
+            case .success(let notes):
+                self?.notes = notes
+                self?.presenter?.dataFetched(notes)
+            case .failure(let error):
+                self?.presenter?.didFailToFetchNotes(error)
+            }
+        }
     }
     func getData() -> [NoteEntity] {
         return notes

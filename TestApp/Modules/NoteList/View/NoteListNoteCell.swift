@@ -20,12 +20,14 @@ class NoteListNoteCell: UITableViewCell {
     
     var titleLabel: UILabel = {
         let titleLable = UILabel()
+        titleLable.font = UIFont.systemFont(ofSize: 19.0)
         titleLable.translatesAutoresizingMaskIntoConstraints = false
         return titleLable
     }()
     
     var descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
+        descriptionLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .light)
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.numberOfLines = 0
         return descriptionLabel
@@ -34,6 +36,7 @@ class NoteListNoteCell: UITableViewCell {
     var dateLabel: UILabel = {
         let dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .light)
         return dateLabel
     }()
     
@@ -50,15 +53,28 @@ class NoteListNoteCell: UITableViewCell {
         fatalError()
     }
     
-    func config(isSelected: Bool, title: String) {
-        if isSelected {
+    func config(note: NoteEntity) {
+        if note.isDone {
             doneImage.image = UIImage(named: "selectionOn")
+            let attributes: [NSAttributedString.Key: Any] = [
+                .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+                .strikethroughColor: UIColor.gray,
+                .foregroundColor: UIColor.gray
+            ]
+            let attributedString = NSMutableAttributedString(string: note.name, attributes: attributes)
+            titleLabel.attributedText = attributedString
+            descriptionLabel.textColor = .gray
+            dateLabel.textColor = .gray
         } else {
             doneImage.image = UIImage(named: "selectionOff")
+            titleLabel.attributedText = nil
+            titleLabel.text = note.name
+            descriptionLabel.textColor = UIColor.gray
+            dateLabel.textColor = .gray
         }
-        titleLabel.text = title
-        descriptionLabel.text = "Сходить в спортзал или сделать тренировку дома. Не забыть про разминку и растяжку!"
-        dateLabel.text = "10/02/2025"
+        
+        descriptionLabel.text = ""
+        dateLabel.text = note.creationDate.formatDate
     }
     
     private func setupUI() {
