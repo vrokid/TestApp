@@ -24,11 +24,14 @@ class NoteDetailView: UIViewController, NoteDetailViewProtocol {
         return view
     }()
     
-    private let titleTextView: UITextView = {
-        let textView = UITextView()
+    private let titleTextView: PlaceholderTextView = {
+        let textView = PlaceholderTextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .black
-        textView.font = UIFont.systemFont(ofSize: 26.0, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 26.0, weight: .bold)
+        textView.placeholder = "Заголовок"
+        textView.config(placeholderFont: font, fontColor: .gray)
+        textView.font = font
         return textView
     }()
     
@@ -40,11 +43,14 @@ class NoteDetailView: UIViewController, NoteDetailViewProtocol {
         return date
     }()
     
-    private let descriptionTextView: UITextView = {
-        let textView = UITextView()
+    private let descriptionTextView: PlaceholderTextView = {
+        let textView = PlaceholderTextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .black
-        textView.font = UIFont.systemFont(ofSize: 16.0, weight: .light)
+        let font = UIFont.systemFont(ofSize: 18.0, weight: .light)
+        textView.placeholder = "Описание"
+        textView.config(placeholderFont: font, fontColor: .gray)
+        textView.font = font
         return textView
     }()
     
@@ -54,12 +60,12 @@ class NoteDetailView: UIViewController, NoteDetailViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
-//        presenter?.viewDidLoad()
+        presenter?.viewDidLoad()
         titleTextView.text = presenter?.selectedNote?.name
         titleTextView.delegate = self
         descriptionTextView.delegate = self
         dateLabel.text = presenter?.selectedNote?.creationDate.formatDate
-        descriptionTextView.text = "Some description text shit"
+        descriptionTextView.text = presenter?.selectedNote?.description
         setupUI()
     }
     
@@ -99,16 +105,16 @@ class NoteDetailView: UIViewController, NoteDetailViewProtocol {
                                      
                                      titleTextView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 0.0),
                                      titleTextView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10.0),
-                                     titleTextView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 10.0),
+                                     titleTextView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10.0),
                                     
                                      dateLabel.topAnchor.constraint(equalTo: self.titleTextView.bottomAnchor, constant: 0.0),
                                      dateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 14.0),
-                                     dateLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 10.0),
+                                     dateLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10.0),
                                      dateLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 1.0),
                                      
                                      descriptionTextView.topAnchor.constraint(equalTo: self.dateLabel.bottomAnchor, constant: 10.0),
                                      descriptionTextView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10.0),
-                                     descriptionTextView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 10.0),
+                                     descriptionTextView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10.0),
                                      descriptionTextView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 0.0)
                                     ])
     }

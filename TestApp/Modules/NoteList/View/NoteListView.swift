@@ -11,7 +11,7 @@ import UIKit
 class NoteListView: UIViewController, NoteListViewProtocol {
     var presenter: NoteListPresenterProtocol?
     
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
@@ -21,11 +21,28 @@ class NoteListView: UIViewController, NoteListViewProtocol {
         return tableView
     }()
     
+    private let bottomView: NoteListBottomView = {
+        let bottomView = NoteListBottomView()
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        return bottomView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.viewDidLoad()
+        
         self.view.addSubview(tableView)
         tableView.frame = self.view.frame
+        tableView.contentInset.bottom = 50.0
+        
+        self.view.addSubview(bottomView)
+        NSLayoutConstraint.activate([
+            bottomView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            bottomView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            bottomView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            bottomView.heightAnchor.constraint(equalToConstant: 80.0)
+        ])
+        self.bottomView.layoutIfNeeded()
     }
     
     func showData(_ data: [NoteEntity]) {
